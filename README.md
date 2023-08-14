@@ -47,7 +47,7 @@ Imagine Updraft has only 400 users (and not 400,000+ users) for simplicty. You a
 1. A component that schedules a collection/ payment for a specific monthly repayment amount of an active loan.
 2. A component that runs periodically and updates the status of all pending collections.
 
-Note that this system runs everyday and the first component only needs to run for the loans that are due a collection today (using date_of_collection). For eg -  If a date_of_collection is 20 and today is 20-08-2023, then only we will schedule a collection, provided a loan is active. Definition of active loan is provided in the instructions below. 
+Note that this system runs everyday and the first component only needs to run for the loans that are due a collection today (using date_of_collection). For eg -  If a date_of_collection is 20 and today is 20-08-2023, then only we will schedule a collection, provided a loan is active. Definition of an active loan is provided in the instructions below. 
 
 For both the above components, we will be using these endpoints: Create a payment, Get a payment respectively. Attached are two CSVs are useful for building and testing the system - 
 
@@ -59,7 +59,7 @@ For both the above components, we will be using these endpoints: Create a paymen
 1. Create a (python) directory called collection_system.
 2. Put the loans.csv and payments.csv inside the directory.
 3. Create a file called collection.py that contains a class Collection 
-4. Write a function in this class that takes in a loan (row as a dict or tuple, up to you), the start_date and number_of _months of this loan to check if it is active or not.
+4. Write a function in this class that takes in a loan (row as a dict or tuple, up to you), the start_date and number_of _months of this loan to check if it is active or not. If for eg. a loan started 3 years ago and had only 12 months in the agreement, then that loan is not active. 
 5. Write another function that takes in a loan, monthly_amount and date_of_collection to check if a schedule is required today and then schedules a payment using the Gocardless API. meta_data field can be left as an empty dict in the request to modulr. Use loan_id as the reference. Usually, an output of this function will be a unique payment_id returned by GoCardless that will be stored in our database. To avoid any DB interaction in this task, we will skip that part.
 6. Write another function that takes in a payment (row as a dict or tuple, up to you). Using payment_id reach out to this endpoint and get the latest status. Usually, output of this function will be a database entry with an updated status for the corresponding payment_ids (let’s skip it)
 7. Create a pytest.py file that tests the 3 functions and their different scenarios (if any).
